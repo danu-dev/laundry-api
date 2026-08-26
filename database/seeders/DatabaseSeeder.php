@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // We will seed the database using factories in specific seeders or here
-        // For now, let's leave this empty or call the BusinessSeeder when it's ready.
+        // Seed initial admin user
+        $this->call([UserSeeder::class]);
         $this->call([
             //
         ]);
