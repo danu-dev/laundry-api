@@ -55,8 +55,7 @@ class AuthController extends Controller
 
         $user->load('business');
 
-        // HACK: Bypass Sanctum database write for Vercel SQLite readonly environment
-        $token = 'dummy_token_vercel_' . $user->id . '_' . time();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -82,8 +81,7 @@ class AuthController extends Controller
 
         $user->load('business');
 
-        // HACK: Bypass Sanctum database write for Vercel SQLite readonly environment
-        $token = 'dummy_token_vercel_' . $user->id . '_' . time();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -99,7 +97,7 @@ class AuthController extends Controller
      */
     public function me(Request $request): JsonResponse
     {
-        $user = User::first()->load("business");
+        $user = $request->user()->load('business');
 
         return response()->json([
             'success' => true,
@@ -114,7 +112,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        // $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'success' => true,

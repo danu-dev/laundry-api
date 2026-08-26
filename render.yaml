@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: laundry-api
+    env: docker
+    plan: free
+    region: singapore
+    envVars:
+      - key: APP_NAME
+        value: LaundryApp
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://laundry-api.onrender.com
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: CORS_ALLOWED_ORIGINS
+        value: http://localhost:3000,https://laundry-os-nine.vercel.app
+    disk:
+      name: sqlite-data
+      mountPath: /var/www/html/database
+      sizeGB: 1
