@@ -4,19 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'price', 'unit', 'active'])]
 class Service extends Model
 {
-    /** @use HasFactory<\Database\Factories\ServiceFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected function casts(): array
+    protected $fillable = [
+        'business_id',
+        'name',
+        'pricing_type',
+        'price',
+        'estimated_duration_minutes',
+        'is_active',
+    ];
+
+    public function business(): BelongsTo
     {
-        return [
-            'price' => 'decimal:2',
-            'active' => 'boolean',
-        ];
+        return $this->belongsTo(Business::class);
     }
 }

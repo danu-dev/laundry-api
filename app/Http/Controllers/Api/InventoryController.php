@@ -18,6 +18,7 @@ class InventoryController extends Controller
             ->map(function ($item) {
                 // Add status flag
                 $item->status = $item->quantity <= $item->minimum_stock ? 'low' : 'ok';
+
                 return $item;
             });
 

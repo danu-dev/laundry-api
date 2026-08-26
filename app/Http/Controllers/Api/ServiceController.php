@@ -11,6 +11,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::where('active', true)->get();
+
         return response()->json($services);
     }
 
@@ -51,6 +52,7 @@ class ServiceController extends Controller
     {
         // Instead of deleting, just deactivate to preserve history in orders
         $service->update(['active' => false]);
+
         return response()->noContent();
     }
 }

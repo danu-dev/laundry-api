@@ -20,11 +20,11 @@ class OrderController extends Controller
             ->when($outletId, fn ($q) => $q->where('outlet_id', $outletId))
             ->when($status, fn ($q) => $q->where('status', $status))
             ->when($search, function ($q, $search) {
-                $q->where(function($query) use ($search) {
+                $q->where(function ($query) use ($search) {
                     $query->where('order_number', 'like', "%{$search}%")
-                        ->orWhereHas('customer', function($c) use ($search) {
+                        ->orWhereHas('customer', function ($c) use ($search) {
                             $c->where('name', 'like', "%{$search}%")
-                              ->orWhere('phone', 'like', "%{$search}%");
+                                ->orWhere('phone', 'like', "%{$search}%");
                         });
                 });
             })
@@ -47,7 +47,7 @@ class OrderController extends Controller
         ]);
 
         return DB::transaction(function () use ($validated, $request) {
-            $orderNumber = 'LD-' . now()->format('dmy') . '-' . str_pad(Order::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+            $orderNumber = 'LD-'.now()->format('dmy').'-'.str_pad(Order::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
 
             $subtotal = 0;
 
@@ -112,6 +112,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load(['customer', 'items.service', 'payments', 'statusHistories.changedBy', 'outlet']);
+
         return response()->json($order);
     }
 
@@ -170,7 +171,7 @@ class OrderController extends Controller
                     'quantity' => $item->quantity,
                     'unit' => $item->unit,
                 ];
-            })
+            }),
         ]);
     }
 }

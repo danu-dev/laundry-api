@@ -7,13 +7,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ServiceResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'pricing_type' => $this->pricing_type,
+            'price' => $this->price,
+            'estimated_duration_minutes' => $this->estimated_duration_minutes,
+            'is_active' => (bool) $this->is_active,
+        ];
     }
 }

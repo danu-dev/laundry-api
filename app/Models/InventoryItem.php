@@ -4,19 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'quantity', 'unit', 'minimum_stock', 'outlet_id'])]
 class InventoryItem extends Model
 {
-    /** @use HasFactory<\Database\Factories\InventoryItemFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected function casts(): array
+    protected $fillable = [
+        'business_id',
+        'name',
+        'unit',
+        'quantity',
+        'minimum_quantity',
+    ];
+
+    public function business(): BelongsTo
     {
-        return [
-            'quantity' => 'decimal:2',
-            'minimum_stock' => 'decimal:2',
-        ];
+        return $this->belongsTo(Business::class);
     }
 }

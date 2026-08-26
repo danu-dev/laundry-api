@@ -14,12 +14,12 @@ class CustomerController extends Controller
 
         $customers = Customer::when($search, function ($query, $search) {
             $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+                ->orWhere('phone', 'like', "%{$search}%");
         })
-        ->withCount('orders')
-        ->withSum('orders as total_spending', 'total')
-        ->latest()
-        ->paginate(15);
+            ->withCount('orders')
+            ->withSum('orders as total_spending', 'total')
+            ->latest()
+            ->paginate(15);
 
         return response()->json($customers);
     }
@@ -52,7 +52,7 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'phone' => 'sometimes|required|string|max:20|unique:customers,phone,' . $customer->id,
+            'phone' => 'sometimes|required|string|max:20|unique:customers,phone,'.$customer->id,
             'notes' => 'nullable|string',
         ]);
 

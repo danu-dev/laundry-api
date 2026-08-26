@@ -29,7 +29,7 @@ class FinanceController extends Controller
         $growth = 0;
         if ($lastMonthRevenue > 0) {
             $growth = (($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100;
-        } else if ($thisMonthRevenue > 0) {
+        } elseif ($thisMonthRevenue > 0) {
             $growth = 100; // 100% growth if last month was 0
         }
 
